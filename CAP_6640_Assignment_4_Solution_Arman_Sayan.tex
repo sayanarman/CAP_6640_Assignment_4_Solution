@@ -4,6 +4,8 @@
 \usepackage[left=1in,right=1in,top=1in,bottom=1in]{geometry}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath, xparse}
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
 
 \begin{document}
 
@@ -13,7 +15,80 @@
 %\vspace*{-0.1in}\paragraph{Instructions:}
 %Individual work. Cite all references. All submitted assignments must be typed. Using Latex is required. For \LaTeX, you may use your installation, or online IDEs (no installation required); e.g.,  \href{https://www.overleaf.com/}{www.overleaf.com}. Late submissions by at most 24 hours will be scaled down to 50\%; late beyond 24 hours will be worth 0\%. Total of 40 points (+2 bonus). 
 \begin{description}
-\item[Problem 1:] \hfill Describe how bidirectional RNNs work, including a diagram and mathematical formulation, and explain the problems they address.
+\item[Problem 1:] \hfill %Describe how bidirectional RNNs work, including a diagram and mathematical formulation, and explain the problems they address.
+
+Bidirectional RNN is a special extension standard of RNN architecture that processes input sequences in both forward and backward directions.
+This means that each word in the sequence has context from both past and future words.
+
+The key idea is that standard RNNs process text sequentially, meaning each word depends only on the previous words.
+This biases the model towards the end of the sentence and makes it difficult to model bidirectional context appearing at the beginning of the sentence.
+Bidirectional RNNs address this issue by processing the input sequence in both directions, providing more context for each word.
+This mechanism fixes the limited context problem of standard RNNs by incorporating future context, which is necessary for crucial NLP tasks like NER, 
+sentiment analysis, speech recognition, and many more.
+
+We can illustrate the working process of bidirectional RNNs with the following diagram:
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\textwidth]{biRNN.png}
+    \caption{Example of a Bidirectional RNN architecture.}
+\end{figure}
+
+A bidirectional RNN consists of two RNNs: Forward RNN, and Backward RNN. 
+
+The forward RNN processes the input sequence from past information to future information, while the backward RNN processes it from 
+future information to backward information.
+At each time step $t$, both RNNs produce a hidden state $h_t^{(f)}$ and $h_t^{(b)}$, 
+where $h_t^{(f)}$ encodes the past context, and $h_t^{(b)}$ encodes the future context.
+
+The final output at each time step is the concatenation of both hidden states as:
+
+\begin{center}
+    $h_t = [h_t^{(f)} \oplus h_t^{(b)}]$
+\end{center}
+
+where $\oplus$ denotes concatenation operation.
+
+Mathematically, given an input sequence $X = (x_1, x_2, ..., x_T)$, the forward RNN updates its hidden state as:
+
+\begin{center}
+    $h_t^{(f)} = f(W_{h}^{(f)}h_{t-1}^{(f)} + W_{x}x_t + b_h^{(f)})$
+\end{center}
+
+where $h_t^{(f)}$ is the hidden state of the forward RNN at time step $t$, $W_{h}^{(f)}$ is the weight matrix for the hidden state, $W_{x}$ is the weight matrix for the input, $b_h^{(f)}$ is the bias term, and $f$ is the activation function.
+
+Similarly, the backward RNN updates its hidden state as:
+
+\begin{center}
+    $h_t^{(b)} = f(W_{h}^{(b)}h_{t+1}^{(b)} + W_{x}x_t + b_h^{(b)})$
+\end{center}
+
+where $h_t^{(b)}$ is the hidden state of the backward RNN at time step $t$, $W_{h}^{(b)}$ is the weight matrix for the hidden state, $W_{x}$ is the weight matrix for the input, $b_h^{(b)}$ is the bias term, and $f$ is the activation function.
+
+The final output of the bidirectional RNN is the concatenation of both hidden states at each time step, which captures both past and future context.
+
+\begin{center}
+    $h_t = [h_t^{(f)} \oplus h_t^{(b)}]$
+\end{center}
+
+where $\oplus$ denotes concatenation operation, and $h_t$ is the final context-aware representation for each word.
+
+We can list the problems that bidirectional RNNs address as follows:
+
+\begin{enumerate}
+    \item Standard RNNs only use past information to predict the next word, which can lead to a short-term bias.
+    Bidirectional RNNs incorporate future context, making predictions more accurate.
+    \item Long-range dependencies are lost in standard RNNs due to the vanishing gradient problem.
+    Bidirectional RNNs capture long-range dependencies by processing the input sequence in both directions.
+\end{enumerate}
+
+However, it is important to note that bidirectional RNNs are computationally expensive and require more parameters than standard RNNs, which can make 
+training slower and more complex.
+Furthermore, bidirectional RNNs are not suitable for real-time applications due to the need to process the entire sequence before making predictions.
+Lastly, it still an RNN architecture, which means it is still prone to vanishing gradient problem and struggles with long-range dependencies.
+
+Even though there are some limitations of bidirectional RNNs, they are widely used in NLP tasks like sentiment analysis, NER, and machine translation 
+due to their ability to capture bidirectional context effectively as an improvement.
 
 \pagebreak
 
