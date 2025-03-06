@@ -13,7 +13,9 @@
 %\vspace*{-0.1in}\paragraph{Instructions:}
 %Individual work. Cite all references. All submitted assignments must be typed. Using Latex is required. For \LaTeX, you may use your installation, or online IDEs (no installation required); e.g.,  \href{https://www.overleaf.com/}{www.overleaf.com}. Late submissions by at most 24 hours will be scaled down to 50\%; late beyond 24 hours will be worth 0\%. Total of 40 points (+2 bonus). 
 \begin{description}
-\item[Problem 1:] \hfill Describe how bidirectional RNNs work, including a diagram and mathematical formulation, and explain the problems they address.  
+\item[Problem 1:] \hfill Describe how bidirectional RNNs work, including a diagram and mathematical formulation, and explain the problems they address.
+
+\pagebreak
 
 \item[Problem 2:] \hfill %In the context of CNNs, explain the following concepts with examples: convolution, padding, channels, max pooling, average over time, striding, and k-max pooling. 
  
@@ -138,13 +140,67 @@
 
     \end{enumerate}
 
-\item[Problem 3:] \hfill Discuss the operation of multi-layer RNNs, highlighting the advantages of using multiple layers and identifying four key challenges associated with them.  
+\pagebreak
+
+\item[Problem 3:] \hfill %Discuss the operation of multi-layer RNNs, highlighting the advantages of using multiple layers and identifying four key challenges associated with them.
+
+A multi-layer RNN consist of multiple stacked RNN layers where the output of one layer is fed as input to the next layer.
+This hierarchical architecture allows the network to learn complex patterns and dependencies in the data across different levels of abstraction.
+
+For an in input sequence $X = (x_1, x_2, ..., x_T)$, a single-layer RNN updates its hidden state as:
+
+\begin{center}
+    $h_t^{(1)} = f(W_{h}h_{t-1}^{(1)} + b_h)$
+\end{center}
+
+where $h_t^{(1)}$ is the hidden state of the first layer at time step $t$, $W_{h}$ is the weight matrix, $b_h$ is the bias term, and $f$ is the activation function.
+
+What multi-layer RNNs do is to extend this formulation to multiple layers. In a multi-layer RNN, each hidden state at layer $l$ takes input from the previous layer's hidden state as
+
+\begin{center}
+    $h_t^{(l)} = f(W_{h}^{(l)}h_t^{(l-1)} + b_h^{(l)})$
+\end{center}
+
+where $h_t^{(l)}$ is the hidden state of the $l$-th layer at time step $t$, $W_{h}^{(l)}$ is the weight matrix, $b_h^{(l)}$ is the bias term, and $f$ is the activation function.
+
+This enhances representation learning, allowing the network to learn hierarchical representations of the input data, where each layer processes information at a different level of abstraction, with lower layers 
+capturing local patterns and deeper layers modeling high-level dependencies.
+
+The advantages of using multiple layers in RNNs include:
+
+\begin{enumerate}
+    \item \textbf{Hierarchical Representation Learning:} As mentioned earlier, multi-layer RNNs can learn hierarchical representations of the input data.
+    Lower layers capture local patterns like words in a phrase, while deeper layers capture long-term dependencies like sentence meaning.
+    \item \textbf{Increased Model Capacity:} Compared to single layer RNNs, multi-layer RNNs can model complex sequential data better than shallow alternatives.
+    \item \textbf{Improved Generalization:} Hierarchical feature extraction of multi-layer RNNs makes the useful for complex sequences like a long text and speech.
+\end{enumerate}
+
+However, multi-layer RNNs also face several challenges:
+
+\begin{enumerate}
+    \item \textbf{Vanishing and Exploding Gradients:} Like in every RNN architecture, as gradients propagate through many layers and time steps, 
+    they become exponentially small, preventing earlier layers from learning.
+    \item \textbf{Long-Term Dependency:} Even though multi-layer RNNs are better than shallow ones, they still struggle to capture long-term dependencies in the data due to 
+    the vanishing gradient problem, which can limit their ability to model sequences with long-range dependencies.
+    \item \textbf{Computational Complexity and Cost:} Having multiple RNNs means more model parameters to train, which can require significant computational resources, 
+    making training slow.
+    \item \textbf{Optimization Challenges:} Training multi-layer RNNs can be challenging due to overfitting and convergence of gradients, which can make it harder to 
+    find an optimal model configuration.
+\end{enumerate}
+
+\pagebreak
 
 \item[Problem 4:] \hfill Explain the encoder-decoder architecture, detailing its working mechanism and providing three real-world applications.  
 
+\pagebreak
+
 \item[Problem 5:] \hfill Explain how CNNs are applied to text understanding tasks, such as sentiment analysis.
 
+\pagebreak
+
 \item[Problem 6:] \hfill Describe how neural machine translation operates and compare it to alternative approaches.  
+
+\pagebreak
 
 \item[Problem 7:] \hfill Identify three limitations of RNNs that CNNs overcome.  
 
