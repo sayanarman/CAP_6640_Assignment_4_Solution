@@ -241,7 +241,7 @@ Three real-world applications of the encoder-decoder architecture are:
 
 \pagebreak
 
-\item[Problem 5:] \hfill Explain how CNNs are applied to text understanding tasks, such as sentiment analysis.
+\item[Problem 5:] \hfill %Explain how CNNs are applied to text understanding tasks, such as sentiment analysis.
 
 CNNs are widely used in text understanding tasks, such as sentiment analysis, due to their efficient way of capturing local patterns in a sentence without 
 requiring sequential processing. 
@@ -307,7 +307,56 @@ The same mechanism of CNNs can be applied to other text understanding tasks like
 
 \pagebreak
 
-\item[Problem 6:] \hfill Describe how neural machine translation operates and compare it to alternative approaches.
+\item[Problem 6:] \hfill %Describe how neural machine translation operates and compare it to alternative approaches.
+
+Neural machine translation, NMT in short, is a deep learning-based approach that translates text from one language to another using NNs.
+Unlike traditional rule-based or statistical machine translation methods, NMT learns language patterns automatically from large datasets.
+
+The key components of NMT are the encoder and the decoder, which are connected by an attention mechanism for improved performance.
+The encoder processes the input sentence and generates a context vector, which is then passed to the decoder to generate the output sentence.
+Attention mechanism helps the model to focus on relevant parts of the input sentence while generating the output. It is especially useful for long sentences.
+Instead of using a single context vector, attention computes weights for each input word dynamically.
+
+The encoder takes the input sentence $X = (x_1, x_2, ..., x_T)$ and generates a hidden representation at each step.
+
+\begin{center}
+    $h_t = f(W_{h}h_{t-1} + W_{e}x_t + b_h)$
+\end{center}
+
+The final hidden state $h_T$ is passed to the decoder as a fixed-length context vector $C$.
+
+For example, we want to tranlate the sentence "I love dogs!" from English to Turkish.
+The encoder processes the input sentence and generates a context vector $C$ as
+
+\begin{center}
+    $[2.1, -1.3, 0.9, 1.4]$
+\end{center}
+
+The decoder takes the context vector and generates the target sentence word by word.
+At each step, it predicts the next word based on the previous words and the context vector as:
+
+\begin{center}
+    $s_t = f(W_{d}y_{t-1} + U_{d}s_{t-1} + V_{d}C + b_h)$
+\end{center}
+
+For instance, the decoder generates the first word "Ben" in Turkish conditioned on the $C$.
+Then, it generates the next word "köpekleri" based on the previous word "Ben" and updated $s_t$.
+This process continues until the end-of-sequence token is generated. 
+Finally, the decoder generates the output sentence "Ben köpekleri seviyorum!".
+
+Compared to other machine translation approaches like statistical machine translation (SMT) and rule-based machine translation (RBMT), NMT has several advantages:
+
+\begin{itemize}
+    \item RBMT relies on hand-crafted rules and dictionaries, which can be time-consuming and error-prone to create.
+    SMT uses statistical models to translate text, which can be computationally expensive and require large amounts of data.
+    NMT, on the other hand, learns translation patterns automatically from data using deep learning techniques.
+    \item RBMT Requires linguistic expertise to create rules and dictionaries, which can be challenging for low-resource languages.
+    SMT relies on large bilingual datasets that may not capture complex language patterns well.
+    NMT needs a very large monolingual and bilingual datasets to learn translation patterns effectively.
+    \item RBMT produces rigid translations based on predefined rules, which may not capture nuances in the language.
+    SMT can produce better fluent translations but they are mostly limited to phrase-based translations.
+    NMT can generate more fluent and natural translations by learning contextual dependencies and capturing long-range dependencies.
+\end{itemize}
 
 \pagebreak
 
