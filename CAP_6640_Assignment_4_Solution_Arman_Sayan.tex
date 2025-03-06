@@ -243,6 +243,68 @@ Three real-world applications of the encoder-decoder architecture are:
 
 \item[Problem 5:] \hfill Explain how CNNs are applied to text understanding tasks, such as sentiment analysis.
 
+CNNs are widely used in text understanding tasks, such as sentiment analysis, due to their efficient way of capturing local patterns in a sentence without 
+requiring sequential processing. 
+
+Assume that we have a sentence "I absolutely love this movie! It was fantastic." and we want to classify the sentiment of this sentence.
+The words "love", "fantastic", and "absolutely" suggest strong positive sentiment, and the CNN model should be able to scan key phrases like "was fantastic" to
+determine the sentiment of the sentence. CNNs can work very well in this scenario since the main job is to detect local patterns or n-grams in text and classify the 
+sentiment efficiently.
+
+The first step in applying CNNs to text understanding tasks is to convert words into numerical representations.
+Assume that we have the following word embeddings for the sentence "I love this amazing movie!":
+
+\begin{center}
+    "I" $\rightarrow$ [0.2, 0.1, 0.5, 0.7] \\
+    "love" $\rightarrow$ [0.8, 0.3, 0.6, 0.5] \\
+    "this" $\rightarrow$ [0.4, 0.9, 0.2, 0.8] \\
+    "amazing" $\rightarrow$ [0.7, 0.5, 0.3, 0.6] \\
+    "movie" $\rightarrow$ [0.9, 0.6, 0.4, 0.7] \\
+\end{center}
+
+The next step is to apply convolutional operations to the word embeddings to detect
+local patterns or n-grams in the sentence. For example, assume that we have a kernel of size 2 that is applied to the sentence.
+The kernel to detect bigrams is represented as:
+
+\begin{center}
+    $\displaystyle{\begin{bmatrix} 0.1 & 0.2 & 0.3 & 0.4 \\  0.5 & 0.4 & 0.3 & 0.2 \\ \end{bmatrix}}$
+\end{center}
+
+We will slide over word pairs in the sentence and apply the convolution operation to detect bigrams.
+For instance, the convolution operation for the bigram "love this" is as follows:
+
+\begin{center}
+    [0.8, 0.3, 0.6, 0.5] $\cdot$ [0.1, 0.2, 0.3, 0.4] + [0.4, 0.9, 0.2, 0.8] $\cdot$ [0.5, 0.4, 0.3, 0.2] = 0.8 $\times$ 0.1 + 0.3 $\times$ 0.2 + 0.6 $\times$ 0.3 + 0.5 $\times$ 0.4 + 0.4 $\times$ 0.5 + 0.9 $\times$ 0.4 + 0.2 $\times$ 0.3 + 0.8 $\times$ 0.2 = 1.44
+\end{center}
+
+After applying the convolution operation to all possible bigrams in the sentence, we get a feature map as 
+
+\begin{center}
+    [1.25, 1.44, 1.39, 1.57]
+\end{center}
+
+Each value represents how strongly a phrase contributes to sentiment.
+We can see that this filter activates strongly for "amazing movie" bigram, which suggests a positive sentiment in the sentence.
+
+After convolution, we have a feature map showing how strongly different phrases contribute to sentiment.
+The next step is to apply max pooling to the feature map to keep the most important phrases.
+For example, after applying max pooling with a window size of 2, we get the following representation:
+
+\begin{center}
+    max p $\rightarrow$ [1.44, 1.57]
+\end{center}
+
+This ensures the model focuses on key phrases like "love this" and "amazing movie".
+
+Finally, we can pass the output of max pooling to a fully connected layer and a softmax function to classify the sentiment of the sentence.
+
+\begin{center}
+    $y = softmax(W \times [1.44, 1.57] + b)$
+\end{center}
+
+With this example, we can see how CNNs can be applied to text understanding tasks like sentiment analysis by capturing local patterns in the text efficiently.
+The same mechanism of CNNs can be applied to other text understanding tasks like text classification and more.
+
 \pagebreak
 
 \item[Problem 6:] \hfill Describe how neural machine translation operates and compare it to alternative approaches.
