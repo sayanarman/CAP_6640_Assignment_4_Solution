@@ -360,7 +360,30 @@ Compared to other machine translation approaches like statistical machine transl
 
 \pagebreak
 
-\item[Problem 7:] \hfill Identify three limitations of RNNs that CNNs overcome.
+\item[Problem 7:] \hfill %Identify three limitations of RNNs that CNNs overcome.
+
+\begin{enumerate}
+    \item \textbf{Prefix Dependency Issue:} RNNs process text sequentially, meaning each word depends only on the previous words.
+    This biases the model towards the end of the sentence and makes it difficult to model bidirectional context appearing at the beginning of the sentence.
+    For instance, for the sentence "The academic article I read yesterday was illuminating.", RNNs may struggle to capture the relationship between "academic article" and "illuminating"
+    as it is difficult to accurately predict long-range dependencies. 
+    CNNs do not rely on sequential dependencies. 
+    Instead, they apply convolution filters over all n-grams at once, allowing the model to capture context from any part of the input.
+    This makes CNNs better at capturing global context, rather than being biased toward words at the end of the sentence.
+    \item \textbf{Overweighting of Recent Tokens:} Because of gradient updates, RNNs tend to give more weight to recent words while forgetting earlier ones, 
+    which leads to a short-term bias. This makes RNNs over-reliant on recent tokens when predicting the next word.
+    For example, in the sentence "I love dogs, but I am allergic to them.", RNNs may struggle may give too much weight to "allergic", ignoring "love" and leading to a wrong negative
+    prediction.
+    CNNs, on the other hand, apply equal-weight convolutional filters across the text, meaning they treat all words equally rather than favoring recent ones.
+    Furthermore, max-pooling helps select the most relevant features from anywhere in the sequence, avoiding overemphasis on recent words.
+    \item \textbf{Softmax at the Last Step:} In RNNs, the softmax function is applied only at the final step, meaning earlier states do not directly 
+    contribute to the prediction. This loses intermediate information and makes it difficult to capture long-term dependencies.
+    To give an example, assume we have partially generated the sentence "The Orlando weather today is ..." and we want to predict the next word.
+    Since softmax is only applied at the last step, important features from earlier time steps such as "Orlando" and "weather" may be weakened, 
+    leading to an incorrect next word prediction.
+    On contrary, CNNs apply multiple filters at every step, ensuring that intermediate representations contribute equally to the final prediction.
+    Instead of relying on a single softmax output, CNNs aggregate features at multiple layers, improving word prediction accuracy.
+\end{enumerate}
 
 \end{description}
 
